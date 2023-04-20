@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('环境部署') {
+            steps {
+                // 在这里执行环境部署的操作，例如设置 Python 虚拟环境
+            }
+        }
+        stage('拉取测试代码') {
+            steps {
+                script {
+                    // 修改这里的 URL 为你的仓库的 URL
+                    def gitUrl = 'https://github.com/your-user/your-repo.git'
+                    def testBranch = 'test-branch' // 测试分支名称
+
+                    // 拉取测试代码
+                    checkout([$class: 'GitSCM', branches: [[name: "*/${testBranch}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: gitUrl]]])
+                }
+            }
+        }
+        stage('测试') {
+            steps {
+                // 在这里执行测试操作，例如运行 pytest 或其他测试框架
+            }
+        }
+        stage('生成测试报告') {
+            steps {
+                // 在这里生成和归档测试报告，例如使用 JUnit 插件
+            }
+        }
+    }
+    post {
+        always {
+            // 发送邮件
+            emailext (
+                subject: "Jenkins 测试结果: ${currentBuild.fullDisplayName}",
+                body: """<p>Jenkins 测试结果: ${currentBuild.fullDisplayName}</p>
+                         <p>构建状态: ${currentBuild.currentResult}</p>
+                         <p>查看详细信息: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>""",
+                mimeType: 'text/html',
+                to: 'jx6198@buaa.edu.cn' // 收件人邮箱
+            )
+        }
+    }
+}
