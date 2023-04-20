@@ -11,8 +11,8 @@ pipeline {
             steps {
                 script {
                     // 修改这里的 URL 为你的仓库的 URL
-                    def gitUrl = 'https://github.com/your-user/your-repo.git'
-                    def testBranch = 'test-branch' // 测试分支名称
+                    def gitUrl = 'https://github.com/J-bottle/jenkins-pipeline.git'
+                    def testBranch = 'test' // 测试分支名称
 
                     // 拉取测试代码
                     checkout([$class: 'GitSCM', branches: [[name: "*/${testBranch}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: gitUrl]]])
