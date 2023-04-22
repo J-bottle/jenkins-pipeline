@@ -30,7 +30,7 @@ pipeline {
 	    emailext(
 		subject: "Jenkins Pipeline: ${currentBuild.fullDisplayName}",
 		body: "Pipeline build result: ${currentBuild.result}",
-		to: '434744384@qq.com',
+		to: 'jx6198@buaa.edu.cn',
 		from: 'jiangx6198@163.com'
 
 	    )
