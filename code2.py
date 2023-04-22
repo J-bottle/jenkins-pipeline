@@ -1,1 +1,1 @@
-print('Edit another file!')
+print('Edit the file!')
