@@ -28,6 +28,7 @@ pipeline {
         always {
             // 发送构建结果（邮件、钉钉消息等）
             mail to: 'jx6198@buaa.edu.cn',
+		 from: 'jiangx6198@163.com',
                  subject: "Jenkins Pipeline: ${currentBuild.fullDisplayName}",
                  body: "Pipeline build result: ${currentBuild.result}"
         }
