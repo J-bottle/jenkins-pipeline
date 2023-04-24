@@ -29,7 +29,10 @@ pipeline {
             // 发送构建结果，通过邮件提醒
 	    emailext(
 		subject: "Jenkins Pipeline: ${currentBuild.fullDisplayName}",
-		body: "Pipeline build result: ${currentBuild.result}",
+		body: "Pipeline build result: ${currentBuild.result},
+                       Pipeline deploy result: ${currentDeploy.result},
+                       Pipeline test result: ${currentTest.result}
+                      ",
 		to: 'jx6198@buaa.edu.cn, 434744384@qq.com',
 		from: 'jiangx6198@163.com'
 
