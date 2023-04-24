@@ -26,14 +26,14 @@ pipeline {
 
     post {
         always {
-            // 发送构建结果，通过邮件提醒
+            // 发送结果，通过邮件提醒
 	    emailext(
 		subject: "Jenkins Pipeline: ${currentBuild.fullDisplayName}",
-		body: "Pipeline build result: ${currentBuild.result},
-                       Pipeline deploy result: ${currentDeploy.result},
+		body: "Pipeline build result: ${currentBuild.result}\n
+                       Pipeline deploy result: ${currentDeploy.result}\n
                        Pipeline test result: ${currentTest.result}
                       ",
-		to: 'jx6198@buaa.edu.cn, 434744384@qq.com',
+		to: 'jx6198@buaa.edu.cn, 1006713964@qq.com',
 		from: 'jiangx6198@163.com'
 
 	    )
