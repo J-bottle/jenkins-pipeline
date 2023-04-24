@@ -1,46 +1,49 @@
-pipeline {
+peline {
     agent any
 
     stages {
-        stage('环境部署') {
+        stage('Environment Setup') {
             steps {
-                // 在这里执行环境部署的操作，例如设置 Python 虚拟环境
+                // 设置环境，例如安装必要的软件或设置环境变量
+                sh 'echo "Setting up the environment..."'
             }
         }
-        stage('拉取测试代码') {
-            steps {
-                script {
-                    // 修改这里的 URL 为你的仓库的 URL
-                    def gitUrl = 'https://github.com/J-bottle/jenkins-pipeline.git'
-                    def testBranch = 'test' // 测试分支名称
 
-                    // 拉取测试代码
-                    checkout([$class: 'GitSCM', branches: [[name: "*/${testBranch}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: gitUrl]]])
+        stage('Checkout') {
+            steps {
+                // 从代码仓库拉取测试代码
+                sh 'echo "pull code from test repo..."'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // 使用测试工具（如JUnit、pytest等）进行测试
+                sh 'echo "Running tests..."'
+            }
+            post {
+                always {
+                    // 生成测试报告
+                    junit 'target/surefire-reports/*.xml'
                 }
             }
         }
-        stage('测试') {
-            steps {
-                // 在这里执行测试操作，例如运行 pytest 或其他测试框架
-            }
-        }
-        stage('生成测试报告') {
-            steps {
-                // 在这里生成和归档测试报告，例如使用 JUnit 插件
-            }
-        }
     }
+
     post {
         always {
-            // 发送邮件
-            emailext (
-                subject: "Jenkins 测试结果: ${currentBuild.fullDisplayName}",
-                body: """<p>Jenkins 测试结果: ${currentBuild.fullDisplayName}</p>
-                         <p>构建状态: ${currentBuild.currentResult}</p>
-                         <p>查看详细信息: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>""",
-                mimeType: 'text/html',
-                to: 'jx6198@buaa.edu.cn' // 收件人邮箱
-            )
+            script {
+                // 读取测试报告文件的内容
+                def testReport = readFile 'target/surefire-reports/TEST-your-test-report.xml'
+
+                // 发送结果，通过邮件提醒
+                emailext(
+                    subject: "Jenkins Pipeline: ${currentBuild.fullDisplayName}",
+                    body: "Pipeline build result: ${currentBuild.result}\n\nTest Report:\n${testReport}",
+                    to: 'jx6198@buaa.edu.cn',
+                    from: 'jiangx6198@163.com'
+                )
+            }
         }
     }
 }
