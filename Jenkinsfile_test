@@ -24,7 +24,7 @@ pipeline {
             post {
                 always {
                     // 生成测试报告
-                    junit 'target/surefire-reports/*.xml'
+                    junit 'test_report.xml'
                 }
             }
         }
@@ -34,7 +34,7 @@ pipeline {
         always {
             script {
                 // 读取测试报告文件的内容
-                def testReport = readFile 'target/surefire-reports/TEST-your-test-report.xml'
+                def testReport = readFile 'test_report.xml'
 
                 // 发送结果，通过邮件提醒
                 emailext(
