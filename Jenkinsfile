@@ -31,8 +31,8 @@ pipeline {
                 subject: "Jenkins Pipeline: ${currentBuild.fullDisplayName}",
                 body: """
                     Pipeline build result: ${currentBuild.result}
-                    Pipeline deploy result: 'SUCCESS'
-                    Pipeline test result: 'SUCCESS'
+                    Pipeline deploy result: SUCCESS
+                    Pipeline test result: SUCCESS
                     """,
                 to: 'jx6198@buaa.edu.cn',
                 from: 'jiangx6198@163.com'
