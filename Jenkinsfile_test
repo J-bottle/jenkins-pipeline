@@ -13,6 +13,10 @@ pipeline {
             steps {
                 // 从代码仓库拉取测试代码
                 sh 'echo "pull code from test repo..."'
+		git(
+			url: 'https://github.com/J-bottle/jenkins-pipeline.git',
+			branch: 'test'
+		)
             }
         }
 
