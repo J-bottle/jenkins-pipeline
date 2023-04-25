@@ -34,7 +34,7 @@ pipeline {
                     Pipeline deploy result: 'SUCCESS'
                     Pipeline test result: 'SUCCESS'
                     """,
-                to: 'jx6198@buaa.edu.cn, 1006713964@qq.com',
+                to: 'jx6198@buaa.edu.cn',
                 from: 'jiangx6198@163.com'
             )
         }
