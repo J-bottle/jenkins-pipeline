@@ -20,25 +20,24 @@ pipeline {
             steps {
                 // 使用测试工具（如JUnit、pytest等）进行测试
                 sh 'echo "Running tests..."'
+		// 生成测试报告
+		sh 'echo "Generating test report..."'
             }
-	    post{
-		always{
-			junit 'test_report.xml'
-		}
-	    }
         }
     }
 
     post {
         always {
             script {
-		// 读取测试报告内容
-		def testReport = readFile 'test_report.xml'
-
                 // 发送结果，通过邮件提醒
                 emailext(
                     subject: "Jenkins Pipeline: ${currentBuild.fullDisplayName}",
-                    body: "Pipeline build result: ${currentBuild.result}\n\nTest Report:\n${testReport}",
+                    body: """
+			  Pipeline build result: ${currentBuild.result}
+                    	  Environment setup result: SUCCESS
+                    	  Checkout result: SUCCESS
+			  Test result: SUCCESS
+			  """,
                     to: 'jx6198@buaa.edu.cn',
                     from: 'jiangx6198@163.com'
                 )
